@@ -14,6 +14,7 @@ import pojo.in.JsonRequest;
 import pojo.out.JsonResponse;
 import utilities.CommonUtils;
 import utilities.Constants;
+import utilities.PropertyManager;
 import utilities.RestAssuredUtility;
 
 import java.util.ArrayList;
@@ -30,14 +31,14 @@ public class StepDefinitions {
     List<Map<String, String>> excelData;
     ArrayList<String> randomExcelData;
 
-    Map<String, Object> manufacturerList = new HashMap<String, Object>();
+    Map<String, Object> manufacturerList = new HashMap<>();
     static Logger log = Logger.getLogger(StepDefinitions.class.getName());
 
 
     @Given("User perform GET operation for {string} with {string}")
     public void userPerformGETOperationForWith(String url, String manufacturerCode) {
         url = CommonUtils.getEndpoint(url);
-        Map<String, String> pathParams = new HashMap<String, String>();
+        Map<String, String> pathParams = new HashMap<>();
         if (manufacturerCode.contains(",")) {
             String[] manufacturerCodes = manufacturerCode.split(",");
             pathParams.put(Constants.MANUFACTURER, manufacturerCodes[0]);
@@ -70,7 +71,7 @@ public class StepDefinitions {
     public void userPerformGETOperationOnForSchemaValidation(String urlLabel) {
 
         String url = CommonUtils.getEndpoint(urlLabel);
-        Map<String, String> pathParams = new HashMap<String, String>();
+        Map<String, String> pathParams = new HashMap<>();
         try {
             switch (urlLabel) {
                 case "manufacturer":
@@ -112,7 +113,7 @@ public class StepDefinitions {
     @When("User perform GET operation for {string} using random data from input sheet")
     public void userPerformGETOperationForUsingRandomDataFromInputSheet(String urlLabel) {
         String url = CommonUtils.getEndpoint(urlLabel);
-        Map<String, String> pathParams = new HashMap<String, String>();
+        Map<String, String> pathParams = new HashMap<>();
         switch (urlLabel) {
             case "manufacturer":
                 response = RestAssuredUtility.getInstance().GetWithPathParams(url);
@@ -155,7 +156,7 @@ public class StepDefinitions {
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         }
         for (Map.Entry<String, Object> entry : manufacturerList.entrySet()) {
-            Map<String, String> pathParams = new HashMap<String, String>();
+            Map<String, String> pathParams = new HashMap<>();
             pathParams.put(Constants.MANUFACTURER, entry.getKey());
             try {
                 response = RestAssuredUtility.getInstance().GetWithPathParams(url, pathParams);
@@ -207,10 +208,9 @@ public class StepDefinitions {
     @Given("User perform GET operation for {string} with below parameters")
     public void userPerformGETOperationForWithBelowParameters(String urlLabel, DataTable dt) {
         List<Map<String, String>> newTable = dt.asMaps(String.class, String.class);
-        String url = CommonUtils.getEndpoint(urlLabel);
-        Map<String, String> pathParams = new HashMap<String, String>();
-        for (int i = 0; i < newTable.size(); i++) {
-            pathParams.put(newTable.get(i).get("Key"), newTable.get(i).get("Value"));
+        Map<String, String> pathParams = new HashMap<>();
+        for (Map<String, String> stringStringMap : newTable) {
+            pathParams.put(stringStringMap.get("Key"), stringStringMap.get("Value"));
         }
         switch (urlLabel) {
             case "manufacturer":
@@ -228,9 +228,8 @@ public class StepDefinitions {
     @Given("User perform GET operation for {string} with HTTPS protocol")
     public void userPerformGETOperationForWithHTTPSProtocol(String urlLabel) {
         String url = CommonUtils.getEndpoint(urlLabel);
-        //Hardcoded *********************
-        String httpsURL = "https://api-aws-eu-qa-1.auto1-test.com/";
-        Map<String, String> pathParams = new HashMap<String, String>();
+        String httpsURL = PropertyManager.getInstance().getBaseUrl();
+        Map<String, String> pathParams = new HashMap<>();
         try {
             switch (urlLabel) {
                 case "manufacturer":
@@ -282,7 +281,7 @@ public class StepDefinitions {
         }
 
         for (Map.Entry<String, Object> entry : manufacturerList.entrySet()) {
-            Map<String, String> pathParams = new HashMap<String, String>();
+            Map<String, String> pathParams = new HashMap<>();
             pathParams.put(Constants.MANUFACTURER, entry.getKey());
             try {
                 response = RestAssuredUtility.getInstance().GetWithPathParams(Constants.MAINTYPEENDPOINT, pathParams);
@@ -293,7 +292,7 @@ public class StepDefinitions {
             Assert.assertEquals(Constants.SUCCESSCODE, response.statusCode());
 
             jsonResponse = response.getBody().as(JsonResponse.class);
-            Map<String, Object> modelList = new HashMap<String, Object>();
+            Map<String, Object> modelList = new HashMap<>();
 
             if (jsonResponse.getAdditionalProperties().size() > 0) {
                 modelList = jsonResponse.getAdditionalProperties().entrySet().stream()
@@ -305,7 +304,7 @@ public class StepDefinitions {
             }
 
             for (Map.Entry<String, Object> entryModel : modelList.entrySet()) {
-                Map<String, String> pathParamsnew = new HashMap<String, String>();
+                Map<String, String> pathParamsnew = new HashMap<>();
                 pathParamsnew.put(Constants.MANUFACTURER, entry.getKey());
                 pathParamsnew.put(Constants.MAINTYPE, entryModel.getKey());
                 try {
@@ -317,7 +316,6 @@ public class StepDefinitions {
                 Assert.assertEquals(Constants.SUCCESSCODE, response.statusCode());
 
                 jsonResponse = response.getBody().as(JsonResponse.class);
-                Map<String, Object> yearList = new HashMap<String, Object>();
 
                 if (jsonResponse.getAdditionalProperties().size() > 0) {
                     ArrayList<Object> responseList = new ArrayList<>(jsonResponse.getAdditionalProperties().values());
@@ -348,7 +346,7 @@ public class StepDefinitions {
         }
 
         for (Map.Entry<String, Object> entry : manufacturerList.entrySet()) {
-            Map<String, String> pathParams = new HashMap<String, String>();
+            Map<String, String> pathParams = new HashMap<>();
             pathParams.put(Constants.MANUFACTURER, entry.getKey());
             try {
                 response = RestAssuredUtility.getInstance().GetWithPathParams(Constants.MAINTYPEENDPOINT, pathParams);
@@ -359,7 +357,7 @@ public class StepDefinitions {
             Assert.assertEquals(Constants.SUCCESSCODE, response.statusCode());
 
             jsonResponse = response.getBody().as(JsonResponse.class);
-            Map<String, Object> modelList = new HashMap<String, Object>();
+            Map<String, Object> modelList = new HashMap<>();
 
             if (jsonResponse.getAdditionalProperties().size() > 0) {
                 modelList = jsonResponse.getAdditionalProperties().entrySet().stream()
@@ -371,7 +369,7 @@ public class StepDefinitions {
             }
 
             for (Map.Entry<String, Object> entryModel : modelList.entrySet()) {
-                Map<String, String> pathParamsnew = new HashMap<String, String>();
+                Map<String, String> pathParamsnew = new HashMap<>();
                 pathParamsnew.put(Constants.MANUFACTURER, entry.getKey());
                 pathParamsnew.put(Constants.MAINTYPE, entryModel.getKey());
                 try {
@@ -383,11 +381,8 @@ public class StepDefinitions {
                 Assert.assertEquals(Constants.SUCCESSCODE, response.statusCode());
 
                 jsonResponse = response.getBody().as(JsonResponse.class);
-                Map<String, Object> yearList = new HashMap<String, Object>();
 
                 if (jsonResponse.getAdditionalProperties().size() > 0) {
-                    yearList = jsonResponse.getAdditionalProperties().entrySet().stream()
-                            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                     log.info("Manufacturer car model year list available under wkda object.");
                 } else {
                     log.error("Manufacturer car model year list not available under wkda object.");

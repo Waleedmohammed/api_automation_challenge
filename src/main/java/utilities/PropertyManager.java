@@ -17,8 +17,6 @@ public class PropertyManager {
     private static final Object lock = new Object();
     private static String home = System.getProperty("user.dir");
     String propertyFilePath = home + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "configuration.properties";
-    //    private static String propertyFilePath = System.getProperty("user.dir") +
-//            "\\src\\test\\resources\\configuration.properties";
     private static String baseUrl;
     private static String passKey;
     private static String passValue;
@@ -42,7 +40,6 @@ public class PropertyManager {
         //Read configuration.properties file
         try {
             prop.load(new FileInputStream(propertyFilePath));
-            //prop.load(this.getClass().getClassLoader().getResourceAsStream("configuration.properties"));
         } catch (IOException e) {
             log.error(e.getStackTrace());
             System.out.println("Configuration properties file cannot be found");

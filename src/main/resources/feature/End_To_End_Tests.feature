@@ -1,6 +1,5 @@
 @Regression
 Feature: Validate End-To-End User Experience with All Service Integration
-#  $$$$$$$ What is covered here as part of End-To-End Integration Testing $$$$$$$
 #  1. Validate successful 200 response from all APIs and we are getting key value pairs in wkda object so that customer never see blank dropdown
 #     in all possible combination parameters as part of integration testing
 #  2. Validating the successful response from API when integrated and executed with random data from Excel sheet.

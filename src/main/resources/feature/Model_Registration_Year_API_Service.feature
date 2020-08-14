@@ -1,6 +1,5 @@
 @Regression
 Feature: Validate Car Model Registration Year API Service
-#  $$$$$$$ What is covered here as part of testing the Car Model Registration Year API $$$$$$$
 #  1. Validate successful 200 response from GET method and
 #     we are getting key value pairs in wkda object so that customer never see blank dropdown
 #  2. Validate the wrapping json as per business requirement which includes page, pageSize, totalPageCount & Json object wkda
